@@ -73,7 +73,7 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 def expand(problem, current, fringe, actions):
-    """ This function is written to provide expansion of current node irrespective of search algorithm"""
+    """ This function is written to provide expansion of current for DFS and BFS algorithms"""
     for child, action, cost in problem.getSuccessors(current):
         fringe.push((child, actions + [action]))
     return fringe
@@ -137,12 +137,34 @@ def breadthFirstSearch(problem):
             if problem.isGoalState(current):
                 return actions
             fringe = expand(problem, current, fringe, actions)
-            
+
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    start = problem.getStartState()
+
+    if problem.isGoalState(start):
+        return []
+    
+    reached = []
+    
+    fringe = util.PriorityQueue()
+    fringe.push((start,list(),0),0)
+
+    while not fringe.isEmpty():
+        current, actions, present_cost = fringe.pop()
+
+        if current not in reached:
+            reached.append(current)
+
+            if problem.isGoalState(current):
+                return actions
+            
+            for child, action, cost in problem.getSuccessors(current):
+                fringe.push((child, actions + [action], present_cost + cost), present_cost + cost)
+
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
