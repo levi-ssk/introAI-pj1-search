@@ -74,7 +74,7 @@ def tinyMazeSearch(problem):
 
 def expand(problem, current, fringe, actions):
     """ This function is written to provide expansion of current for DFS and BFS algorithms"""
-    for child, action, cost in problem.getSuccessors(current):
+    for child, action, _ in problem.getSuccessors(current):
         fringe.push((child, actions + [action]))
     return fringe
 
